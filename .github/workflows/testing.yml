@@ -9,24 +9,7 @@ jobs:
   a_test_job:
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v4
-      - name: github context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
-      - name: commits
-        env:
-          COMMITS: ${{ toJson(github.event.commits) }}
-        run: echo "$COMMITS"
-      - name: commit messages
-        env:
-          COMMIT_MESSAGES: ${{ toJson(github.event.commits.*.message) }}
-        run: echo "$COMMIT_MESSAGES"
-      - name: get first message
-        env:
-          FIRST_MESSAGE: ${{ toJson(github.event.commits[0].message) }}
-        run: echo "$FIRST_MESSAGE"
-      - name: contains skip
-        env:
-          CONTAINS_SKIP: ${{ contains( join(toJson(github.event.commits.*.message), ','), '#skip' ) }}
-        run: echo "$CONTAINS_SKIP"
+      - name: Check health endpoint
+        uses: jtalk/url-health-check-action@v4
+        with:
+          url: https://full-stack-open-pokedex-dp.fly.dev/health
